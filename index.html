@@ -86,6 +86,13 @@
             <span class="font-semibold">May 2013 (Model Year)</span>
           </div>
           <div class="flex items-center justify-between gap-4">
+            <span class="text-slate-500">Build Context</span>
+            <span class="inline-flex items-center gap-2 font-semibold">
+              <img src="assets/icons/japan-flag.svg" alt="Japan Flag" class="w-4 h-4 rounded-sm shadow-sm object-cover" />
+              Tahara Plant, Aichi (JP)
+            </span>
+          </div>
+          <div class="flex items-center justify-between gap-4">
             <span class="text-slate-500">Paint Code</span>
             <span class="font-mono font-bold">217 <span class="font-sans font-medium text-slate-500">(Starlight Black Mica)</span></span>
           </div>
@@ -111,6 +118,14 @@
             <button class="group relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50" onclick="openLightbox(2)" type="button">
               <img src="assets/images/real_interior.png" alt="Real Photo: Interior" class="w-full h-full object-cover" onerror="this.closest('button').classList.add('opacity-40');" />
               <span class="absolute bottom-1 left-1 text-[9px] font-bold uppercase tracking-widest text-white bg-slate-900/60 px-2 py-0.5 rounded">Interior</span>
+            </button>
+            <button class="group relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50" onclick="openLightbox(3)" type="button">
+              <img src="assets/images/IMG_0223.png" alt="Real Photo: IMG_0223" class="w-full h-full object-cover" onerror="this.closest('button').classList.add('opacity-40');" />
+              <span class="absolute bottom-1 left-1 text-[9px] font-bold uppercase tracking-widest text-white bg-slate-900/60 px-2 py-0.5 rounded">IMG_0223</span>
+            </button>
+            <button class="group relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50" onclick="openLightbox(4)" type="button">
+              <img src="assets/images/IMG_0224.png" alt="Real Photo: IMG_0224" class="w-full h-full object-cover" onerror="this.closest('button').classList.add('opacity-40');" />
+              <span class="absolute bottom-1 left-1 text-[9px] font-bold uppercase tracking-widest text-white bg-slate-900/60 px-2 py-0.5 rounded">IMG_0224</span>
             </button>
           </div>
           <p class="mt-3 text-[11px] text-slate-500">If a thumbnail is dimmed, the file is missing. Add it under <span class="font-mono">assets/images/</span>.</p>
@@ -397,6 +412,8 @@
       { src: "assets/images/real_front.jpeg", title: "Real Photo — Front" },
       { src: "assets/images/real_rear.jpeg", title: "Real Photo — Rear" },
       { src: "assets/images/real_interior.png", title: "Real Photo — Interior" },
+      { src: "assets/images/IMG_0223.png", title: "Real Photo — IMG_0223" },
+      { src: "assets/images/IMG_0224.png", title: "Real Photo — IMG_0224" },
     ];
 
     /** @type {Array<{
