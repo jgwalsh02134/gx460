@@ -49,7 +49,7 @@
       <div class="flex items-center gap-2" title="Verified by Physical Records">
         <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse" aria-hidden="true"></div>
         <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Archive Status: Verified</span>
-      </div>
+        </div>
       <div class="flex items-center gap-3">
         <button onclick="copyVIN()" class="text-[11px] font-mono bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-md transition-colors flex items-center gap-2 border border-slate-200">
           <i data-lucide="copy" class="w-3.5 h-3.5"></i> <span id="vin-text">JTJBM7FX0D5051070</span>
@@ -106,28 +106,28 @@
               <p class="text-slate-400 text-[9px] uppercase font-bold tracking-widest mb-1 text-center">Odometer</p>
               <p class="text-2xl font-mono font-bold text-slate-900 text-center">121,600</p>
             </div>
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-              <p class="text-slate-400 text-[9px] uppercase font-bold tracking-widest mb-1 text-center">Appraisal Baseline</p>
-              <div class="flex items-center justify-center gap-2">
-                <p id="target-value" class="text-2xl font-mono font-bold text-center text-slate-900">$17,500</p>
+            <div id="valuation-card" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between">
+                <p class="text-slate-400 text-[9px] uppercase font-bold tracking-widest">Valuation Matrix</p>
                 <button
-                  id="baseline-info-btn"
+                  id="methodology-btn"
                   type="button"
                   class="no-print inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-colors"
-                  aria-label="Appraisal Baseline breakdown"
+                  aria-label="Valuation methodology"
                   aria-expanded="false"
+                  title="Methodology"
                 >
                   <i data-lucide="info" class="w-4 h-4 text-slate-600"></i>
                 </button>
               </div>
 
               <div
-                id="baseline-tooltip"
+                id="methodology-tooltip"
                 class="no-print hidden mt-3 p-3 rounded-xl border border-slate-200 bg-white text-left shadow-lg shadow-slate-200/60"
                 role="dialog"
-                aria-label="Appraisal Baseline breakdown"
+                aria-label="Valuation methodology"
               >
-                <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Why this baseline?</div>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Methodology (Private Party)</div>
                 <div class="space-y-1 text-[12px] text-slate-700">
                   <div class="flex items-center justify-between gap-4">
                     <span class="text-slate-500">Base Private Party</span>
@@ -138,20 +138,40 @@
                     <span class="font-mono font-bold" id="baseline-premium">+$2,000</span>
                   </div>
                   <div class="pt-2 mt-2 border-t border-slate-100 flex items-center justify-between gap-4">
-                    <span class="font-semibold">Total</span>
+                    <span class="font-semibold">Total (Index 1.00×)</span>
                     <span class="font-mono font-extrabold" id="baseline-total">$17,500</span>
-                  </div>
+        </div>
+      </div>
+    </div>
+
+              <div class="grid grid-cols-3 gap-2 md:gap-4 mt-4 mb-3">
+                <div class="rounded-xl border border-slate-200 bg-white p-3">
+                  <div class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Trade-In</div>
+                  <div id="value-tradein" class="mt-1 text-lg md:text-xl font-mono font-bold text-slate-500">$13,200</div>
+                  <div class="mt-1 text-[11px] text-slate-400">Liquidity Floor</div>
+                </div>
+
+                <div id="value-private-card" class="rounded-xl border-2 border-blue-300 bg-blue-50 p-3">
+                  <div class="text-[10px] font-black uppercase tracking-widest text-blue-900">Private Party</div>
+                  <div id="value-private" class="mt-1 text-xl md:text-2xl font-mono font-extrabold text-blue-700">$17,500</div>
+                  <div class="mt-1 text-[11px] text-blue-700/80">Asset Target</div>
+                </div>
+
+                <div class="rounded-xl border border-slate-200 bg-white p-3">
+                  <div class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Dealer Retail</div>
+                  <div id="value-retail" class="mt-1 text-lg md:text-xl font-mono font-bold text-emerald-700">$21,500</div>
+                  <div class="mt-1 text-[11px] text-slate-400">Replacement Cost</div>
                 </div>
               </div>
 
-              <p class="text-[10px] text-slate-500 text-center mt-2 font-mono">
-                Market adjust: <span id="market-adjustment-value">1.00×</span>
+              <p class="text-[10px] text-slate-500 text-center mt-1 font-mono">
+                Market Index: <span id="market-adjustment-value">1.00×</span>
               </p>
             </div>
             <div class="hidden sm:block bg-slate-900 p-4 rounded-2xl text-white border border-slate-700">
               <p class="text-slate-500 text-[9px] uppercase font-bold tracking-widest mb-1 text-center">Status</p>
               <p class="text-center font-bold text-xs uppercase text-green-400">Above Average</p>
-            </div>
+      </div>
         </div>
 
           <!-- Market Condition Adjuster (no-print) -->
@@ -482,7 +502,13 @@
     // Service Archive: structured data (archival evidence)
     // ============================================================
     const currentOdometer = 121600;
-    const baseTargetValue = 17500;
+
+    // Valuation baselines @ Market Index 1.0
+    const baseValues = {
+      tradeIn: 13200, // Wholesale/Liquidity Floor
+      privateParty: 17500, // Core Asset Value (Target)
+      dealerRetail: 21500, // Replacement Cost (Ceiling)
+    };
 
     /** @type {Array<{
      *  date: string,
@@ -793,28 +819,43 @@
     }
 
     // ============================================================
-    // Market Condition Adjuster (Appraisal Baseline calibration)
+    // Market Condition Adjuster (Valuation Matrix calibration)
     // ============================================================
-    function updateMarketAdjustment(multiplier) {
+    function updateMarketCondition(multiplier) {
       const m = Number(multiplier);
       if (!Number.isFinite(m)) return;
 
-      const adjusted = baseTargetValue * m;
-      const targetEl = document.getElementById("target-value");
       const pillEl = document.getElementById("market-adjustment-value");
       const labelEl = document.getElementById("market-adjustment-label");
-
-      if (targetEl) targetEl.innerText = usd0.format(adjusted);
       const multText = `${m.toFixed(2)}×`;
       if (pillEl) pillEl.innerText = multText;
       if (labelEl) labelEl.innerText = multText;
 
-      // Immediate visual feedback: red for soft markets, green for high demand
-      if (targetEl) {
-        targetEl.classList.remove("text-slate-900", "text-rose-700", "text-emerald-700");
-        if (m < 0.99) targetEl.classList.add("text-rose-700");
-        else if (m > 1.01) targetEl.classList.add("text-emerald-700");
-        else targetEl.classList.add("text-slate-900");
+      const elTrade = document.getElementById("value-tradein");
+      const elPriv = document.getElementById("value-private");
+      const elRetail = document.getElementById("value-retail");
+      const privCard = document.getElementById("value-private-card");
+
+      const tradeIn = baseValues.tradeIn * m;
+      const privateParty = baseValues.privateParty * m;
+      const dealerRetail = baseValues.dealerRetail * m;
+
+      if (elTrade) elTrade.innerText = usd0.format(tradeIn);
+      if (elPriv) elPriv.innerText = usd0.format(privateParty);
+      if (elRetail) elRetail.innerText = usd0.format(dealerRetail);
+
+      // Visual feedback: price color shifts with market condition while keeping Private Party dominant
+      if (elPriv) {
+        elPriv.classList.remove("text-blue-700", "text-rose-700", "text-emerald-700");
+        if (m < 0.99) elPriv.classList.add("text-rose-700");
+        else if (m > 1.01) elPriv.classList.add("text-emerald-700");
+        else elPriv.classList.add("text-blue-700");
+      }
+      if (privCard) {
+        privCard.classList.remove("border-blue-300", "border-rose-300", "border-emerald-300");
+        if (m < 0.99) privCard.classList.add("border-rose-300");
+        else if (m > 1.01) privCard.classList.add("border-emerald-300");
+        else privCard.classList.add("border-blue-300");
       }
     }
 
@@ -822,14 +863,14 @@
       const slider = document.getElementById("market-adjustment");
       if (!slider) return;
 
-      updateMarketAdjustment(slider.value);
+      updateMarketCondition(slider.value);
       slider.addEventListener("input", (e) => {
-        updateMarketAdjustment(e.target.value);
+        updateMarketCondition(e.target.value);
       });
     }
 
     // ============================================================
-    // Appraisal Baseline breakdown tooltip
+    // Valuation Methodology tooltip (Private Party)
     // ============================================================
     const baselineBreakdown = {
       basePrivateParty: 15500,
@@ -837,8 +878,8 @@
     };
 
     function initBaselineTooltip() {
-      const btn = document.getElementById("baseline-info-btn");
-      const tip = document.getElementById("baseline-tooltip");
+      const btn = document.getElementById("methodology-btn");
+      const tip = document.getElementById("methodology-tooltip");
       if (!btn || !tip) return;
 
       const baseEl = document.getElementById("baseline-base");
