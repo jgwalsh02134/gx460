@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lexus GX 460 Archival Dashboard — JTJBM7FX0D5051070</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
@@ -116,7 +117,42 @@
       
       <!-- Maintenance Log Column -->
       <div class="lg:col-span-8 space-y-8">
-        
+
+        <!-- Clinical Telemetry (Charts) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Chart A: Annual Maintenance Spend -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-shadow">
+            <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i data-lucide="bar-chart-3" class="w-4 h-4 text-blue-600"></i>
+                <h3 class="font-bold text-slate-800 uppercase tracking-widest text-[11px]">Annual Maintenance Spend</h3>
+              </div>
+              <span class="text-[10px] font-mono text-slate-400">USD</span>
+            </div>
+            <div class="p-4">
+              <div class="relative w-full">
+                <canvas id="chart-annual-spend"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart B: Mileage Accumulation Rate -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-shadow">
+            <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i data-lucide="line-chart" class="w-4 h-4 text-blue-600"></i>
+                <h3 class="font-bold text-slate-800 uppercase tracking-widest text-[11px]">Mileage Accumulation Rate</h3>
+              </div>
+              <span class="text-[10px] font-mono text-slate-400">ODOMETER</span>
+            </div>
+            <div class="p-4">
+              <div class="relative w-full">
+                <canvas id="chart-mileage"></canvas>
+      </div>
+        </div>
+      </div>
+    </section>
+
         <!-- Scrollable Archival Log -->
         <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-shadow">
           <div class="bg-slate-50 px-8 py-5 border-b border-slate-100 flex items-center justify-between">
@@ -128,8 +164,8 @@
               <a href="assets/docs/Schedule%20Lexus%20Service%20Online%20%7C%20My%20Lexus.pdf" target="_blank" class="text-[9px] font-bold text-slate-600 hover:underline uppercase tracking-widest no-print">Service Export PDF</a>
               <a href="https://www.lexus.com/My-Lexus" target="_blank" class="text-[9px] font-bold text-blue-600 hover:underline uppercase tracking-widest no-print">Lexus Tech Portal</a>
         </div>
-      </div>
-          
+        </div>
+
           <div class="service-viewport max-h-[900px] overflow-y-auto p-8 relative">
             <div class="timeline-line absolute"></div>
             
@@ -601,6 +637,154 @@
       )} • ${serviceHistory.length} events`;
     }
 
+    let annualSpendChart;
+    let mileageChart;
+
+    function renderCharts() {
+      if (typeof Chart === "undefined") return;
+
+      // Global clinical styling
+      Chart.defaults.font.family = "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
+      Chart.defaults.color = "#334155"; // slate-700
+
+      const gridColor = "rgba(15, 23, 42, 0.08)"; // slate-900 @ low alpha
+      const accentBlue = "#2563eb"; // blue-600
+      const slateBar = "#1e293b"; // slate-800
+      const criticalRed = "#ef4444"; // red-500
+
+      // ----------------------------
+      // Chart A: Annual Spend (Bar)
+      // ----------------------------
+      const byYear = new Map();
+      const criticalYears = new Set();
+
+      for (const e of serviceHistory) {
+        const year = new Date(`${e.date}T00:00:00`).getFullYear();
+        byYear.set(year, (byYear.get(year) || 0) + (e.cost || 0));
+        if (e.type === "Critical") criticalYears.add(year);
+      }
+
+      const years = Array.from(byYear.keys()).sort((a, b) => a - b);
+      const spend = years.map((y) => Number((byYear.get(y) || 0).toFixed(2)));
+      const barColors = years.map((y) => (criticalYears.has(y) ? criticalRed : slateBar));
+
+      const annualCtx = document.getElementById("chart-annual-spend");
+      if (annualCtx) {
+        if (annualSpendChart) annualSpendChart.destroy();
+
+        annualSpendChart = new Chart(annualCtx, {
+          type: "bar",
+          data: {
+            labels: years.map(String),
+            datasets: [
+              {
+                label: "Annual Maintenance Spend",
+                data: spend,
+                backgroundColor: barColors,
+                borderRadius: 6,
+                maxBarThickness: 42,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 2.2,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => ` ${usd0.format(ctx.parsed.y)}`
+                }
+              },
+            },
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: { color: "#64748b" }, // slate-500
+              },
+              y: {
+                beginAtZero: true,
+                grid: { color: gridColor, drawBorder: false },
+                ticks: {
+                  color: "#64748b",
+                  callback: (v) => usd0.format(Number(v)),
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // ---------------------------------
+      // Chart B: Mileage Accumulation (Line)
+      // ---------------------------------
+      const points = [...serviceHistory]
+        .filter((e) => Number.isFinite(e.mileage) && e.date)
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      const labels = points.map((p) => p.date);
+      const miles = points.map((p) => p.mileage);
+
+      const mileageCtx = document.getElementById("chart-mileage");
+      if (mileageCtx) {
+        if (mileageChart) mileageChart.destroy();
+
+        mileageChart = new Chart(mileageCtx, {
+          type: "line",
+          data: {
+            labels,
+            datasets: [
+              {
+                label: "Odometer",
+                data: miles,
+                borderColor: accentBlue,
+                backgroundColor: "rgba(37, 99, 235, 0.08)",
+                pointRadius: 2,
+                pointHoverRadius: 4,
+                pointBackgroundColor: accentBlue,
+                pointBorderWidth: 0,
+                borderWidth: 2,
+                tension: 0.25,
+                fill: false,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 2.2,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => ` ${fmtMiles(ctx.parsed.y)} mi`,
+                },
+              },
+            },
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: {
+                  color: "#64748b",
+                  maxRotation: 0,
+                  autoSkip: true,
+                  maxTicksLimit: 6,
+                },
+              },
+              y: {
+                grid: { color: gridColor, drawBorder: false },
+                ticks: {
+                  color: "#64748b",
+                  callback: (v) => fmtMiles(v),
+                },
+              },
+            },
+          },
+        });
+      }
+    }
+
     function copyVIN() {
       const vin = "JTJBM7FX0D5051070";
       const btnText = document.getElementById("vin-text");
@@ -639,6 +823,7 @@
 
     renderLog();
     renderTelemetry();
+    renderCharts();
     lucide.createIcons();
   </script>
 </body>
