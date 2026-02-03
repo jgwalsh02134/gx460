@@ -102,7 +102,7 @@
             </div>
             <div class="bg-blue-600 p-4 rounded-2xl border border-blue-500 text-white shadow-lg shadow-blue-600/20">
               <p class="text-blue-100 text-[9px] uppercase font-bold tracking-widest mb-1 text-center">Target Value</p>
-              <p id="target-value" class="text-2xl font-mono font-bold text-center">$17,500</p>
+              <p id="target-value" class="text-2xl font-mono font-bold text-center">$17,500.00</p>
               <p class="text-[10px] text-blue-100/90 text-center mt-1 font-mono">MVI <span id="market-adjustment-value">1.00×</span></p>
             </div>
             <div class="hidden sm:block bg-slate-900 p-4 rounded-2xl text-white border border-slate-700">
@@ -730,12 +730,12 @@
       const m = Number(multiplier);
       if (!Number.isFinite(m)) return;
 
-      const adjusted = Math.round(baseTargetValue * m);
+      const adjusted = baseTargetValue * m;
       const targetEl = document.getElementById("target-value");
       const pillEl = document.getElementById("market-adjustment-value");
       const labelEl = document.getElementById("market-adjustment-label");
 
-      if (targetEl) targetEl.innerText = usd0.format(adjusted);
+      if (targetEl) targetEl.innerText = usd2.format(adjusted);
       const multText = `${m.toFixed(2)}×`;
       if (pillEl) pillEl.innerText = multText;
       if (labelEl) labelEl.innerText = multText;
