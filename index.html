@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2013 Lexus GX 460 — Appraisal Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Print/PDF: keep styling stable without adding print UI */
+    @media print {
+      body { background: white !important; }
+      .print-shadow { box-shadow: none !important; }
+      .print-border { border-color: #e5e7eb !important; }
+      .print-break { break-inside: avoid; page-break-inside: avoid; }
+      a { color: #0f172a !important; text-decoration: none !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-100 p-4 md:p-8 font-sans text-slate-900">
+
+  <!-- Header / Summary -->
+  <header class="max-w-6xl mx-auto mb-8 bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 print-shadow print-border">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div>
+        <div class="flex items-center gap-3 mb-2">
+          <span class="bg-slate-800 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">Appraisal File</span>
+          <span class="text-slate-400 text-sm font-mono tracking-wide">VIN: JTJBM7FX0D5051070</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">2013 Lexus GX 460</h1>
+        <p class="text-slate-500 mt-2 flex flex-wrap items-center gap-x-2 gap-y-1">
+          <span class="inline-flex items-center gap-2"><i data-lucide="map" class="w-4 h-4"></i> Tahara, Japan • Build Date: May 2013</span>
+          <span class="text-slate-300">•</span>
+          <span>1UR-FE 4.6L V8</span>
+          <span class="text-slate-300">•</span>
+          <span>Full-time 4WD (2-speed transfer case)</span>
+        </p>
+      </div>
+
+      <div class="flex gap-4 flex-wrap">
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center min-w-[150px]">
+          <p class="text-slate-400 text-xs uppercase font-bold tracking-wider mb-1">Mileage</p>
+          <p class="text-2xl font-mono font-bold text-slate-900">121,600</p>
+          <p class="text-[11px] text-slate-400 mt-1">Service history documented</p>
+        </div>
+        <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 text-center min-w-[210px]">
+          <p class="text-blue-500 text-xs uppercase font-bold tracking-wider mb-1">Estimated Private-Party Value</p>
+          <p class="text-2xl font-mono font-bold text-blue-900">$15,500 – $19,500</p>
+          <p class="text-[11px] text-blue-600 mt-1">Range aligned to KBB/Edmunds/CarMax (see sources)</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid -->
+  <main class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <!-- Market Value -->
+    <section class="bg-white rounded-xl shadow-sm border border-blue-200 overflow-hidden flex flex-col print-shadow print-border print-break">
+      <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <i data-lucide="dollar-sign" class="w-5 h-5 text-blue-900"></i>
+        <h3 class="font-semibold text-slate-800 uppercase tracking-wide text-sm">Market Value Outlook</h3>
+      </div>
+      <div class="p-6 flex-grow space-y-4">
+        <div class="p-3 bg-slate-50 rounded-lg">
+          <p class="text-xs text-slate-500 uppercase font-bold">Trade-In / Dealer</p>
+          <p class="text-xl font-bold text-slate-700">$10,500 – $13,500</p>
+          <p class="text-xs text-slate-500 mt-1">Typical dealer offer range for similar mileage/condition.</p>
+        </div>
+        <div class="p-3 bg-blue-50 rounded-lg border border-blue-100">
+          <div class="flex justify-between items-center mb-1">
+            <p class="text-xs text-blue-700 uppercase font-bold">Private Party</p>
+            <i data-lucide="check-circle" class="w-4 h-4 text-blue-700"></i>
+          </div>
+          <p class="text-2xl font-bold text-blue-900">$15,500 – $19,500</p>
+          <p class="text-xs text-blue-700 mt-1">Most achievable with clean cosmetics + full records + disclosure documentation.</p>
+        </div>
+        <div class="p-3 bg-slate-50 rounded-lg">
+          <p class="text-xs text-slate-500 uppercase font-bold">Dealer Retail (Comps)</p>
+          <p class="text-xl font-bold text-slate-700">$18,000 – $22,500</p>
+          <p class="text-xs text-slate-500 mt-1">Advertised dealer listing range; transactions can be lower after negotiation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Condition Inputs (critical) -->
+    <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col print-shadow print-border print-break">
+      <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <i data-lucide="clipboard-check" class="w-5 h-5 text-blue-900"></i>
+        <h3 class="font-semibold text-slate-800 uppercase tracking-wide text-sm">Condition Inputs</h3>
+      </div>
+      <div class="p-6 flex-grow">
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Title status</span><span class="font-semibold">Unknown (assumed clean)</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Accident history</span><span class="font-semibold">Unknown (Carfax/AutoCheck)</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Exterior condition</span><span class="font-semibold">Not rated</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Interior condition</span><span class="font-semibold">Not rated</span></div>
+        <div class="flex justify-between py-2"><span class="text-slate-500 text-sm">Rust region exposure</span><span class="font-semibold">Not specified</span></div>
+        <div class="mt-4 p-3 bg-slate-50 rounded text-xs text-slate-500">
+          These inputs materially shift value. If you provide them, the estimate can be tightened to a smaller range.
+        </div>
+      </div>
+    </section>
+
+    <!-- Maintenance -->
+    <section class="bg-white rounded-xl shadow-sm border border-green-200 overflow-hidden flex flex-col print-shadow print-border print-break">
+      <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <i data-lucide="history" class="w-5 h-5 text-blue-900"></i>
+        <h3 class="font-semibold text-slate-800 uppercase tracking-wide text-sm">Maintenance & Service</h3>
+      </div>
+      <div class="p-6 flex-grow">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm text-slate-500">History Quality</span>
+          <span class="text-xs font-bold px-2 py-1 rounded border bg-green-100 text-green-800 border-green-200 uppercase tracking-wider">Above Average</span>
+        </div>
+
+        <ul class="space-y-3 mb-4">
+          <li class="flex gap-3 text-sm text-slate-700 items-start"><i data-lucide="check-circle" class="w-4 h-4 text-green-600 shrink-0 mt-0.5"></i><span><strong>08/29/2024 (114,900 mi):</strong> Miscellaneous service recorded (Jiffy Lube)</span></li>
+          <li class="flex gap-3 text-sm text-slate-700 items-start"><i data-lucide="check-circle" class="w-4 h-4 text-green-600 shrink-0 mt-0.5"></i><span><strong>08/29/2023 (108,112 mi):</strong> Rear wiper arm replaced; water intrusion diagnosed and remediated (dealer documented)</span></li>
+          <li class="flex gap-3 text-sm text-slate-700 items-start"><i data-lucide="check-circle" class="w-4 h-4 text-green-600 shrink-0 mt-0.5"></i><span><strong>07/26/2023 (107,554 mi):</strong> 110k service; oil & filter; tire rotation; NYS inspection; rear pads & rotors replaced</span></li>
+          <li class="flex gap-3 text-sm text-slate-700 items-start"><i data-lucide="check-circle" class="w-4 h-4 text-green-600 shrink-0 mt-0.5"></i><span><strong>01/22/2023 (103,091 mi):</strong> Park/neutral safety switch replaced (4WD engagement concern); oil & filter</span></li>
+          <li class="flex gap-3 text-sm text-slate-700 items-start"><i data-lucide="check-circle" class="w-4 h-4 text-green-600 shrink-0 mt-0.5"></i><span><strong>07/24/2022 (97,765 mi):</strong> Front pads & rotors replaced; front calipers replaced; tires mounted/balanced</span></li>
+          <li class="flex gap-3 text-sm text-slate-700 items-start"><i data-lucide="check-circle" class="w-4 h-4 text-green-600 shrink-0 mt-0.5"></i><span><strong>08/09/2022 (98,461 mi):</strong> A/C pressure sensor replaced; system evacuated/recharged</span></li>
+          <li class="flex gap-3 text-sm text-slate-700 items-start"><i data-lucide="check-circle" class="w-4 h-4 text-green-600 shrink-0 mt-0.5"></i><span><strong>05/03/2020 (81,198 mi):</strong> Navigation head unit / radio tuner assembly replaced after diagnostics</span></li>
+          <li class="flex gap-3 text-sm text-slate-700 items-start"><i data-lucide="check-circle" class="w-4 h-4 text-green-600 shrink-0 mt-0.5"></i><span><strong>01/18/2018 (60,960 mi):</strong> 60k service incl. automatic transmission fluid service</span></li>
+        </ul>
+
+        <div class="bg-slate-50 rounded-lg p-4 border border-slate-100">
+          <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Service Summary</h4>
+          <p class="text-sm text-slate-700 leading-relaxed">The Lexus portal record shows consistent maintenance and major wear items addressed, supporting above-average marketability at this mileage.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vehicle Identity -->
+    <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col print-shadow print-border print-break">
+      <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <i data-lucide="car" class="w-5 h-5 text-blue-900"></i>
+        <h3 class="font-semibold text-slate-800 uppercase tracking-wide text-sm">Vehicle Identity</h3>
+      </div>
+      <div class="p-6 flex-grow">
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">VIN</span><span class="font-semibold font-mono">JTJBM7FX0D5051070</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Build</span><span class="font-semibold">Tahara, Japan • May 2013</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Platform</span><span class="font-semibold">Body-on-frame (Prado-derived)</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Seating</span><span class="font-semibold">7 passengers (3-row)</span></div>
+        <div class="flex justify-between py-2"><span class="text-slate-500 text-sm">Use profile</span><span class="font-semibold">Personal use (per records)</span></div>
+        <div class="mt-4 p-3 bg-slate-50 rounded text-xs text-slate-500">Service history highlights are derived from the My Lexus service export.</div>
+      </div>
+    </section>
+
+    <!-- Powertrain -->
+    <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col print-shadow print-border print-break">
+      <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <i data-lucide="settings" class="w-5 h-5 text-blue-900"></i>
+        <h3 class="font-semibold text-slate-800 uppercase tracking-wide text-sm">Powertrain</h3>
+      </div>
+      <div class="p-6 flex-grow">
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Engine</span><span class="font-semibold">1UR-FE 4.6L V8</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Output</span><span class="font-semibold">301 hp / 329 lb-ft</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Transmission</span><span class="font-semibold">A760F 6-speed automatic</span></div>
+        <div class="flex justify-between py-2"><span class="text-slate-500 text-sm">4WD</span><span class="font-semibold">Full-time 4WD w/ low range</span></div>
+        <div class="mt-4 p-3 bg-slate-50 rounded text-xs text-slate-500 italic">Timing chain engine; no scheduled timing service interval.</div>
+      </div>
+    </section>
+
+    <!-- Utility & Dimensions -->
+    <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col print-shadow print-border print-break">
+      <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <i data-lucide="box" class="w-5 h-5 text-blue-900"></i>
+        <h3 class="font-semibold text-slate-800 uppercase tracking-wide text-sm">Utility & Capacity</h3>
+      </div>
+      <div class="p-6 flex-grow">
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Cargo (max, rows folded)</span><span class="font-semibold">~64.7 cu ft</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Towing capacity</span><span class="font-semibold">Up to ~6,500 lb (when equipped)</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Wheelbase</span><span class="font-semibold">~109.8 in</span></div>
+        <div class="flex justify-between py-2"><span class="text-slate-500 text-sm">Overall length</span><span class="font-semibold">~189.2 in</span></div>
+        <div class="mt-4 p-3 bg-slate-50 rounded text-xs text-slate-500">Exact towing and options vary by equipment. Verify with door-jamb labels and hitch/radiator equipment.</div>
+      </div>
+    </section>
+
+    <!-- Ratings & Tires -->
+    <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col print-shadow print-border print-break">
+      <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <i data-lucide="ruler" class="w-5 h-5 text-blue-900"></i>
+        <h3 class="font-semibold text-slate-800 uppercase tracking-wide text-sm">Ratings & Tires</h3>
+      </div>
+      <div class="p-6 flex-grow">
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">GVWR</span><span class="font-semibold">6,500 lb</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">GAWR (Front / Rear)</span><span class="font-semibold">2,998 / 3,505 lb</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">OEM Tire Size</span><span class="font-semibold">265/60R18</span></div>
+        <div class="flex justify-between py-2"><span class="text-slate-500 text-sm">Cold Tire Pressure</span><span class="font-semibold">32 psi (F/R)</span></div>
+      </div>
+    </section>
+
+    <!-- Fuel & Economy -->
+    <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col print-shadow print-border print-break">
+      <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <i data-lucide="fuel" class="w-5 h-5 text-blue-900"></i>
+        <h3 class="font-semibold text-slate-800 uppercase tracking-wide text-sm">Fuel & Economy</h3>
+      </div>
+      <div class="p-6 flex-grow">
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Fuel Economy</span><span class="font-semibold">15 city / 20 highway MPG</span></div>
+        <div class="flex justify-between py-2 border-b border-slate-50"><span class="text-slate-500 text-sm">Fuel Type</span><span class="font-semibold">Premium unleaded (91 AKI)</span></div>
+        <div class="flex justify-between py-2"><span class="text-slate-500 text-sm">Tank Capacity</span><span class="font-semibold">~23.0 gal</span></div>
+      </div>
+    </section>
+
+    <!-- Known Issue -->
+    <section class="bg-white rounded-xl shadow-sm border border-amber-200 overflow-hidden flex flex-col print-shadow print-border print-break">
+      <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <i data-lucide="alert-triangle" class="w-5 h-5 text-blue-900"></i>
+        <h3 class="font-semibold text-slate-800 uppercase tracking-wide text-sm">Known Issue Disclosure</h3>
+      </div>
+      <div class="p-6 flex-grow">
+        <div class="bg-amber-50 p-4 rounded-lg border border-amber-100 mb-3">
+          <h4 class="font-bold text-amber-900 text-sm mb-1">Water Intrusion Event (2023)</h4>
+          <p class="text-sm text-amber-900 leading-relaxed">Passenger-side water intrusion at ~108k miles. Dealer documented drying/cleaning of affected areas and sealing of suspected leak path. No recurring faults shown in the record after repair.</p>
+        </div>
+        <p class="text-xs text-slate-500"><strong>Valuation Impact:</strong> Moderate disclosure item; mitigated by documented dealer remediation.</p>
+      </div>
+    </section>
+
+    <!-- Pricing Sources (APA) -->
+    <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col print-shadow print-border print-break">
+      <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <i data-lucide="info" class="w-5 h-5 text-blue-900"></i>
+        <h3 class="font-semibold text-slate-800 uppercase tracking-wide text-sm">Pricing Sources (APA)</h3>
+      </div>
+      <div class="p-6 flex-grow">
+        <p class="text-sm text-slate-700 leading-relaxed mb-3">Value ranges are anchored to major valuation services and your documented maintenance history. Links are provided for verification.</p>
+        <ol class="list-decimal pl-5 space-y-2 text-sm text-slate-700">
+          <li>Kelley Blue Book. (n.d.). <em>2013 Lexus GX 460 pricing and values</em>. Retrieved February 2, 2026, from <a class="text-blue-700 underline" href="https://www.kbb.com/lexus/gx/2013/gx-460-sport-utility-4d/" target="_blank" rel="noreferrer">https://www.kbb.com/lexus/gx/2013/gx-460-sport-utility-4d/</a></li>
+          <li>Edmunds. (n.d.). <em>2013 Lexus GX 460 appraisal value</em>. Retrieved February 2, 2026, from <a class="text-blue-700 underline" href="https://www.edmunds.com/lexus/gx-460/2013/appraisal-value/" target="_blank" rel="noreferrer">https://www.edmunds.com/lexus/gx-460/2013/appraisal-value/</a></li>
+          <li>CarMax. (n.d.). <em>2013 Lexus GX 460 value</em>. Retrieved February 2, 2026, from <a class="text-blue-700 underline" href="https://www.carmax.com/value/lexus/gx-460/2013" target="_blank" rel="noreferrer">https://www.carmax.com/value/lexus/gx-460/2013</a></li>
+          <li>Lexus. (2026, February 2). <em>Schedule Lexus Service Online | My Lexus: Service history export for VIN JTJBM7FX0D5051070</em> (PDF).</li>
+        </ol>
+        <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500">Note: final transaction price depends heavily on condition, title status, accident history, and local market.</div>
+      </div>
+    </section>
+
+    <!-- Final -->
+    <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col print-shadow print-border print-break">
+      <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <i data-lucide="shield" class="w-5 h-5 text-blue-900"></i>
+        <h3 class="font-semibold text-slate-800 uppercase tracking-wide text-sm">Final Assessment</h3>
+      </div>
+      <div class="p-6 flex-grow">
+        <p class="text-sm text-slate-700 leading-relaxed">This GX 460 is positioned as a well-documented, above-average example for its age and mileage. Dealer-recorded maintenance, completed major repairs, and recall completion support valuation toward the upper half of the market, with the water-intrusion event treated as a disclosure item mitigated by documentation.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="max-w-6xl mx-auto mt-8 text-center text-slate-400 text-xs">
+    <p>Document generated for VIN: JTJBM7FX0D5051070 • Appraisal / Reference Use</p>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
