@@ -44,17 +44,17 @@
 <body class="min-h-screen bg-slate-50 text-slate-900 selection:bg-blue-100">
 
   <!-- Navigation -->
-  <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 no-print">
+  <nav class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-slate-200 no-print">
     <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+      <div class="flex items-center gap-2" title="Verified by Physical Records">
+        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse" aria-hidden="true"></div>
         <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Archive Status: Verified</span>
       </div>
       <div class="flex items-center gap-3">
         <button onclick="copyVIN()" class="text-[11px] font-mono bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-md transition-colors flex items-center gap-2 border border-slate-200">
           <i data-lucide="copy" class="w-3.5 h-3.5"></i> <span id="vin-text">JTJBM7FX0D5051070</span>
         </button>
-        <button onclick="window.print()" class="bg-slate-900 text-white text-[11px] font-bold uppercase tracking-wider px-4 py-1.5 rounded-md hover:bg-slate-800 transition-all flex items-center gap-2 shadow-lg shadow-slate-900/20">
+        <button onclick="exportReport()" class="bg-slate-900 text-white text-[11px] font-bold uppercase tracking-wider px-4 py-1.5 rounded-md hover:bg-slate-800 transition-all flex items-center gap-2 shadow-lg shadow-slate-900/20">
           <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Export Report
         </button>
       </div>
@@ -74,13 +74,13 @@
           <div>
             <div class="flex flex-wrap items-center gap-2 mb-4">
               <div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 text-blue-700 px-3 py-1 rounded-full">
-                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600"></i>
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600" title="Verified by Physical Records"></i>
                 <span class="text-[9px] font-extrabold uppercase tracking-widest leading-none text-blue-900">Lexus Certified Records Export</span>
               </div>
 
               <!-- Print-visible verification indicator (nav is hidden on print) -->
-              <div class="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-100 text-emerald-800 px-3 py-1 rounded-full">
-                <span class="inline-block w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+              <div class="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-100 text-emerald-800 px-3 py-1 rounded-full" title="Verified by Physical Records">
+                <span class="inline-block w-2 h-2 bg-emerald-500 rounded-full animate-pulse" aria-hidden="true"></span>
                 <span class="text-[9px] font-extrabold uppercase tracking-widest leading-none">Archive Status: Verified</span>
               </div>
             </div>
@@ -102,24 +102,72 @@
             </div>
             <div class="bg-blue-600 p-4 rounded-2xl border border-blue-500 text-white shadow-lg shadow-blue-600/20">
               <p class="text-blue-100 text-[9px] uppercase font-bold tracking-widest mb-1 text-center">Target Value</p>
-              <p class="text-2xl font-mono font-bold text-center">$17,500</p>
+              <p id="target-value" class="text-2xl font-mono font-bold text-center">$17,500</p>
+              <p class="text-[10px] text-blue-100/90 text-center mt-1 font-mono">MVI <span id="market-adjustment-value">1.00×</span></p>
             </div>
             <div class="hidden sm:block bg-slate-900 p-4 rounded-2xl text-white border border-slate-700">
               <p class="text-slate-500 text-[9px] uppercase font-bold tracking-widest mb-1 text-center">Status</p>
               <p class="text-center font-bold text-xs uppercase text-green-400">Above Average</p>
             </div>
         </div>
+
+          <!-- Market Volatility Index (no-print) -->
+          <div class="mt-6 no-print">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <i data-lucide="sliders-horizontal" class="w-4 h-4 text-slate-400" title="Adjusts Target Value for Soft vs Hot markets"></i>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-slate-600">Market Volatility Index</span>
+              </div>
+              <span class="text-[11px] font-mono text-slate-500" id="market-adjustment-label">1.00×</span>
+            </div>
+            <input
+              id="market-adjustment"
+              type="range"
+              min="0.8"
+              max="1.2"
+              step="0.01"
+              value="1.0"
+              class="w-full accent-blue-600"
+            />
+            <div class="flex items-center justify-between mt-1 text-[10px] font-mono text-slate-400">
+              <span>0.80× (Soft)</span>
+              <span>1.20× (Hot)</span>
+            </div>
+          </div>
         </div>
       </div>
     </header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div class="flex flex-col lg:flex-row gap-8">
       
       <!-- Maintenance Log Column -->
-      <div class="lg:col-span-8 space-y-8">
+      <div class="lg:flex-[2] space-y-8">
+
+        <!-- Financial Telemetry (mobile: pinned near top) -->
+        <section class="lg:hidden bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-shadow">
+          <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+            <h3 class="font-bold text-slate-800 uppercase tracking-widest text-[11px]">Financial Telemetry</h3>
+            <i data-lucide="activity" class="w-4 h-4 text-slate-400" title="Computed from serviceHistory costs"></i>
+          </div>
+          <div class="p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-slate-500">Total Cost of Ownership (Maintenance)</span>
+              <span data-telemetry="total" class="text-sm font-mono font-bold text-slate-900">$—</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-slate-500">Cost Per Mile</span>
+              <span data-telemetry="cpm" class="text-sm font-mono font-bold text-slate-900">$—</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-slate-500">Annualized Maintenance Cost</span>
+              <span data-telemetry="annual" class="text-sm font-mono font-bold text-slate-900">$—</span>
+            </div>
+            <div data-telemetry="meta" class="text-[11px] text-slate-400 pt-3 border-t border-slate-100"></div>
+      </div>
+    </section>
 
         <!-- Clinical Telemetry (Charts) -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 print-hide-charts">
           <!-- Chart A: Annual Maintenance Spend -->
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-shadow">
             <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center justify-between">
@@ -197,53 +245,85 @@
       </div>
 
       <!-- Sidebar -->
-      <div class="lg:col-span-4 space-y-8">
+      <div class="lg:flex-1 space-y-8">
         
-        <!-- Factory Specs Card -->
+        <!-- Technical Specification Matrix -->
         <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-shadow">
           <div class="bg-slate-50 px-6 py-4 border-b border-slate-100">
-            <h3 class="font-bold text-slate-800 uppercase tracking-widest text-[11px]">Factory Identity</h3>
+            <h3 class="font-bold text-slate-800 uppercase tracking-widest text-[11px]">Technical Specification Matrix</h3>
       </div>
-          <div class="p-6 space-y-5">
-            <div class="space-y-2">
-              <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Powertrain</p>
-              <div class="space-y-1.5 text-xs">
-                <div class="flex justify-between"><span class="text-slate-500">Engine Code</span><span class="font-bold">1UR-FE 4.6L V8</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">Transmission</span><span class="font-bold">A760F 6-Speed</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">Output</span><span class="font-bold">301 HP / 329 TQ</span></div>
-      </div>
-      </div>
-            <div class="space-y-2">
-              <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Archival Data</p>
-              <div class="space-y-1.5 text-xs">
-                <div class="flex justify-between"><span class="text-slate-500">Service Span</span><span class="font-bold">2013 — 2024</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">Maintenance</span><span class="font-bold text-green-700">Certified Records</span></div>
-                <div class="flex justify-between"><span class="text-slate-500">Towing Max</span><span class="font-bold">6,500 LBS</span></div>
-      </div>
-      </div>
+          <div class="p-4">
+            <table class="w-full text-sm">
+              <tbody class="[&>tr]:align-top [&>tr>td]:py-2 [&>tr>td]:px-2 [&>tr]:even:bg-slate-50">
+                <tr>
+                  <td class="text-slate-500 w-1/2">Engine</td>
+                  <td class="font-semibold">1UR-FE 4.6L V8</td>
+                </tr>
+                <tr>
+                  <td class="text-slate-500">Transmission</td>
+                  <td class="font-semibold">A760F 6-Speed</td>
+                </tr>
+                <tr>
+                  <td class="text-slate-500">Output</td>
+                  <td class="font-semibold">301 HP / 329 TQ</td>
+                </tr>
+                <tr>
+                  <td class="text-slate-500">4WD System</td>
+                  <td class="font-semibold">Torsen® Limited Slip Center Differential (Type T-3)</td>
+                </tr>
+                <tr>
+                  <td class="text-slate-500">Final Drive Ratio</td>
+                  <td class="font-mono font-bold">3.909</td>
+                </tr>
+                <tr>
+                  <td class="text-slate-500">GVWR</td>
+                  <td class="font-semibold">6,600 lbs</td>
+                </tr>
+                <tr>
+                  <td class="text-slate-500">Curb Weight</td>
+                  <td class="font-semibold">5,128 lbs</td>
+                </tr>
+                <tr>
+                  <td class="text-slate-500">Towing Max</td>
+                  <td class="font-semibold">6,500 lbs</td>
+                </tr>
+                <tr>
+                  <td class="text-slate-500">Paint Code</td>
+                  <td class="font-mono font-bold">217 <span class="font-sans font-medium text-slate-500">(Starlight Black Mica)</span></td>
+                </tr>
+                <tr>
+                  <td class="text-slate-500">Service Span</td>
+                  <td class="font-semibold">2013 — 2024</td>
+                </tr>
+                <tr>
+                  <td class="text-slate-500">Records Status</td>
+                  <td class="font-semibold text-green-700">Certified Records</td>
+                </tr>
+              </tbody>
+            </table>
       </div>
     </section>
 
         <!-- Financial Telemetry -->
-        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-shadow">
+        <section class="hidden lg:block bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-shadow">
           <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center justify-between">
             <h3 class="font-bold text-slate-800 uppercase tracking-widest text-[11px]">Financial Telemetry</h3>
-            <i data-lucide="activity" class="w-4 h-4 text-slate-400"></i>
+            <i data-lucide="activity" class="w-4 h-4 text-slate-400" title="Computed from serviceHistory costs"></i>
           </div>
           <div class="p-6 space-y-4">
             <div class="flex items-center justify-between">
               <span class="text-xs text-slate-500">Total Cost of Ownership (Maintenance)</span>
-              <span id="telemetry-total" class="text-sm font-mono font-bold text-slate-900">$—</span>
-            </div>
+              <span data-telemetry="total" class="text-sm font-mono font-bold text-slate-900">$—</span>
+      </div>
             <div class="flex items-center justify-between">
               <span class="text-xs text-slate-500">Cost Per Mile</span>
-              <span id="telemetry-cpm" class="text-sm font-mono font-bold text-slate-900">$—</span>
-            </div>
+              <span data-telemetry="cpm" class="text-sm font-mono font-bold text-slate-900">$—</span>
+      </div>
             <div class="flex items-center justify-between">
               <span class="text-xs text-slate-500">Annualized Maintenance Cost</span>
-              <span id="telemetry-annual" class="text-sm font-mono font-bold text-slate-900">$—</span>
+              <span data-telemetry="annual" class="text-sm font-mono font-bold text-slate-900">$—</span>
       </div>
-            <div id="telemetry-meta" class="text-[11px] text-slate-400 pt-3 border-t border-slate-100"></div>
+            <div data-telemetry="meta" class="text-[11px] text-slate-400 pt-3 border-t border-slate-100"></div>
       </div>
     </section>
 
@@ -339,6 +419,7 @@
     // Service Archive: structured data (archival evidence)
     // ============================================================
     const currentOdometer = 121600;
+    const baseTargetValue = 17500;
 
     /** @type {Array<{
      *  date: string,
@@ -602,11 +683,11 @@
     }
 
     function renderTelemetry() {
-      const totalEl = document.getElementById("telemetry-total");
-      const cpmEl = document.getElementById("telemetry-cpm");
-      const annualEl = document.getElementById("telemetry-annual");
-      const metaEl = document.getElementById("telemetry-meta");
-      if (!totalEl || !cpmEl || !annualEl || !metaEl) return;
+      const totalEls = document.querySelectorAll('[data-telemetry="total"]');
+      const cpmEls = document.querySelectorAll('[data-telemetry="cpm"]');
+      const annualEls = document.querySelectorAll('[data-telemetry="annual"]');
+      const metaEls = document.querySelectorAll('[data-telemetry="meta"]');
+      if (!totalEls.length || !cpmEls.length || !annualEls.length || !metaEls.length) return;
 
       const total = serviceHistory.reduce((sum, e) => sum + (e.cost || 0), 0);
       const startMiles = Math.min(...serviceHistory.map((e) => e.mileage));
@@ -626,16 +707,105 @@
         (1000 * 60 * 60 * 24 * 365.25);
       const safeYears = Math.max(1, years);
 
-      totalEl.innerText = usd0.format(total);
-      cpmEl.innerText = `${usd2.format(total / milesDriven)}/mi`;
-      annualEl.innerText = `${usd0.format(total / safeYears)}/yr`;
+      const totalText = usd0.format(total);
+      const cpmText = `${usd2.format(total / milesDriven)}/mi`;
+      const annualText = `${usd0.format(total / safeYears)}/yr`;
 
-      metaEl.innerText = `Span ${fmtMonthYear(minDate)}–${fmtMonthYear(
+      totalEls.forEach((el) => (el.innerText = totalText));
+      cpmEls.forEach((el) => (el.innerText = cpmText));
+      annualEls.forEach((el) => (el.innerText = annualText));
+
+      const metaText = `Span ${fmtMonthYear(minDate)}–${fmtMonthYear(
         maxDate,
       )} • Odometer ${fmtMiles(startMiles)} → ${fmtMiles(
         currentOdometer,
       )} • ${serviceHistory.length} events`;
+      metaEls.forEach((el) => (el.innerText = metaText));
     }
+
+    // ============================================================
+    // Market Volatility Index (Target Value calibration)
+    // ============================================================
+    function updateMarketAdjustment(multiplier) {
+      const m = Number(multiplier);
+      if (!Number.isFinite(m)) return;
+
+      const adjusted = Math.round(baseTargetValue * m);
+      const targetEl = document.getElementById("target-value");
+      const pillEl = document.getElementById("market-adjustment-value");
+      const labelEl = document.getElementById("market-adjustment-label");
+
+      if (targetEl) targetEl.innerText = usd0.format(adjusted);
+      const multText = `${m.toFixed(2)}×`;
+      if (pillEl) pillEl.innerText = multText;
+      if (labelEl) labelEl.innerText = multText;
+    }
+
+    function initMarketAdjustment() {
+      const slider = document.getElementById("market-adjustment");
+      if (!slider) return;
+
+      updateMarketAdjustment(slider.value);
+      slider.addEventListener("input", (e) => {
+        updateMarketAdjustment(e.target.value);
+      });
+    }
+
+    // ============================================================
+    // Print Mode (Export Report)
+    // ============================================================
+    const PRINT_STYLE_ID = "print-mode-style";
+
+    function enterPrintMode() {
+      document.body.classList.add("print-mode");
+
+      let style = document.getElementById(PRINT_STYLE_ID);
+      if (!style) {
+        style = document.createElement("style");
+        style.id = PRINT_STYLE_ID;
+        style.innerHTML = `
+@media print {
+  /* force clinical black/white output */
+  html, body { background: #ffffff !important; color: #000000 !important; }
+  * { color: #000000 !important; }
+
+  /* hide non-report UI */
+  nav, .no-print, .print-hide-charts, canvas { display: none !important; }
+
+  /* expand timeline */
+  .service-viewport { max-height: none !important; overflow: visible !important; }
+
+  /* ensure no truncation utilities can hide evidence text */
+  .truncate, .line-clamp-1, .line-clamp-2, .line-clamp-3, .line-clamp-4, .line-clamp-5 {
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: normal !important;
+    display: block !important;
+    -webkit-line-clamp: unset !important;
+  }
+
+  a { color: #000000 !important; text-decoration: none !important; }
+}
+        `.trim();
+        document.head.appendChild(style);
+      }
+    }
+
+    function exitPrintMode() {
+      document.body.classList.remove("print-mode");
+      const style = document.getElementById(PRINT_STYLE_ID);
+      if (style) style.remove();
+    }
+
+    function exportReport() {
+      enterPrintMode();
+      // allow style/layout to apply before opening print dialog
+      setTimeout(() => window.print(), 50);
+    }
+
+    window.addEventListener("afterprint", () => {
+      exitPrintMode();
+    });
 
     let annualSpendChart;
     let mileageChart;
@@ -824,6 +994,7 @@
     renderLog();
     renderTelemetry();
     renderCharts();
+    initMarketAdjustment();
     lucide.createIcons();
   </script>
 </body>
