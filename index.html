@@ -100,10 +100,47 @@
               <p class="text-slate-400 text-[9px] uppercase font-bold tracking-widest mb-1 text-center">Odometer</p>
               <p class="text-2xl font-mono font-bold text-slate-900 text-center">121,600</p>
             </div>
-            <div class="bg-blue-600 p-4 rounded-2xl border border-blue-500 text-white shadow-lg shadow-blue-600/20">
-              <p class="text-blue-100 text-[9px] uppercase font-bold tracking-widest mb-1 text-center">Target Value</p>
-              <p id="target-value" class="text-2xl font-mono font-bold text-center">$17,500.00</p>
-              <p class="text-[10px] text-blue-100/90 text-center mt-1 font-mono">MVI <span id="market-adjustment-value">1.00×</span></p>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <p class="text-slate-400 text-[9px] uppercase font-bold tracking-widest mb-1 text-center">Appraisal Baseline</p>
+              <div class="flex items-center justify-center gap-2">
+                <p id="target-value" class="text-2xl font-mono font-bold text-center text-slate-900">$17,500</p>
+                <button
+                  id="baseline-info-btn"
+                  type="button"
+                  class="no-print inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-colors"
+                  aria-label="Appraisal Baseline breakdown"
+                  aria-expanded="false"
+                >
+                  <i data-lucide="info" class="w-4 h-4 text-slate-600"></i>
+                </button>
+              </div>
+
+              <div
+                id="baseline-tooltip"
+                class="no-print hidden mt-3 p-3 rounded-xl border border-slate-200 bg-white text-left shadow-lg shadow-slate-200/60"
+                role="dialog"
+                aria-label="Appraisal Baseline breakdown"
+              >
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Why this baseline?</div>
+                <div class="space-y-1 text-[12px] text-slate-700">
+                  <div class="flex items-center justify-between gap-4">
+                    <span class="text-slate-500">Base Private Party</span>
+                    <span class="font-mono font-bold" id="baseline-base">$15,500</span>
+                  </div>
+                  <div class="flex items-center justify-between gap-4">
+                    <span class="text-slate-500">Maintenance Premium</span>
+                    <span class="font-mono font-bold" id="baseline-premium">+$2,000</span>
+                  </div>
+                  <div class="pt-2 mt-2 border-t border-slate-100 flex items-center justify-between gap-4">
+                    <span class="font-semibold">Total</span>
+                    <span class="font-mono font-extrabold" id="baseline-total">$17,500</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-[10px] text-slate-500 text-center mt-2 font-mono">
+                Market adjust: <span id="market-adjustment-value">1.00×</span>
+              </p>
             </div>
             <div class="hidden sm:block bg-slate-900 p-4 rounded-2xl text-white border border-slate-700">
               <p class="text-slate-500 text-[9px] uppercase font-bold tracking-widest mb-1 text-center">Status</p>
@@ -111,12 +148,12 @@
             </div>
         </div>
 
-          <!-- Market Volatility Index (no-print) -->
+          <!-- Market Condition Adjuster (no-print) -->
           <div class="mt-6 no-print">
             <div class="flex items-center justify-between mb-2">
               <div class="flex items-center gap-2">
-                <i data-lucide="sliders-horizontal" class="w-4 h-4 text-slate-400" title="Adjusts Target Value for Soft vs Hot markets"></i>
-                <span class="text-[11px] font-bold uppercase tracking-widest text-slate-600">Market Volatility Index</span>
+                <i data-lucide="sliders-horizontal" class="w-4 h-4 text-slate-400" title="Adjusts the baseline for local market demand"></i>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-slate-600">Market Condition Adjuster</span>
               </div>
               <span class="text-[11px] font-mono text-slate-500" id="market-adjustment-label">1.00×</span>
             </div>
@@ -130,8 +167,8 @@
               class="w-full accent-blue-600"
             />
             <div class="flex items-center justify-between mt-1 text-[10px] font-mono text-slate-400">
-              <span>0.80× (Soft)</span>
-              <span>1.20× (Hot)</span>
+              <span>Buyer’s Market (Soft)</span>
+              <span>Seller’s Market (High Demand)</span>
             </div>
           </div>
         </div>
@@ -181,6 +218,9 @@
               <div class="relative w-full">
                 <canvas id="chart-annual-spend"></canvas>
               </div>
+              <p class="mt-3 text-[11px] text-slate-500 font-mono">
+                Outliers: <span class="text-slate-900 font-bold">2020</span> Head Unit • <span class="text-slate-900 font-bold">2023</span> Water Leak
+              </p>
             </div>
           </div>
 
@@ -214,7 +254,7 @@
         </div>
         </div>
 
-          <div class="service-viewport max-h-[900px] overflow-y-auto p-8 relative">
+          <div class="service-viewport p-8 relative lg:max-h-[900px] lg:overflow-y-auto">
             <div class="timeline-line absolute"></div>
             
             <div id="service-log" class="space-y-12"></div>
@@ -255,6 +295,9 @@
           <div class="p-4">
             <table class="w-full text-sm">
               <tbody class="[&>tr]:align-top [&>tr>td]:py-2 [&>tr>td]:px-2 [&>tr]:even:bg-slate-50">
+                <tr class="bg-slate-900 text-white">
+                  <td colspan="2" class="py-2 px-2 text-[10px] font-black uppercase tracking-[0.2em]">Powertrain</td>
+                </tr>
                 <tr>
                   <td class="text-slate-500 w-1/2">Engine</td>
                   <td class="font-semibold">1UR-FE 4.6L V8</td>
@@ -275,6 +318,10 @@
                   <td class="text-slate-500">Final Drive Ratio</td>
                   <td class="font-mono font-bold">3.909</td>
                 </tr>
+
+                <tr class="bg-slate-900 text-white">
+                  <td colspan="2" class="py-2 px-2 text-[10px] font-black uppercase tracking-[0.2em]">Dimensions</td>
+                </tr>
                 <tr>
                   <td class="text-slate-500">GVWR</td>
                   <td class="font-semibold">6,600 lbs</td>
@@ -284,12 +331,16 @@
                   <td class="font-semibold">5,128 lbs</td>
                 </tr>
                 <tr>
-                  <td class="text-slate-500">Towing Max</td>
-                  <td class="font-semibold">6,500 lbs</td>
-                </tr>
-                <tr>
                   <td class="text-slate-500">Paint Code</td>
                   <td class="font-mono font-bold">217 <span class="font-sans font-medium text-slate-500">(Starlight Black Mica)</span></td>
+                </tr>
+
+                <tr class="bg-slate-900 text-white">
+                  <td colspan="2" class="py-2 px-2 text-[10px] font-black uppercase tracking-[0.2em]">Capacities</td>
+                </tr>
+                <tr>
+                  <td class="text-slate-500">Towing Max</td>
+                  <td class="font-semibold">6,500 lbs</td>
                 </tr>
                 <tr>
                   <td class="text-slate-500">Service Span</td>
@@ -576,6 +627,12 @@
       maximumFractionDigits: 2,
     });
 
+    function usdSmart(n) {
+      const v = Number(n);
+      if (!Number.isFinite(v)) return "$—";
+      return Math.abs(v) < 100 ? usd2.format(v) : usd0.format(v);
+    }
+
     function fmtMiles(n) {
       return Number(n).toLocaleString("en-US");
     }
@@ -708,7 +765,7 @@
       const safeYears = Math.max(1, years);
 
       const totalText = usd0.format(total);
-      const cpmText = `${usd2.format(total / milesDriven)}/mi`;
+      const cpmText = `${usdSmart(total / milesDriven)}/mi`;
       const annualText = `${usd0.format(total / safeYears)}/yr`;
 
       totalEls.forEach((el) => (el.innerText = totalText));
@@ -724,7 +781,7 @@
     }
 
     // ============================================================
-    // Market Volatility Index (Target Value calibration)
+    // Market Condition Adjuster (Appraisal Baseline calibration)
     // ============================================================
     function updateMarketAdjustment(multiplier) {
       const m = Number(multiplier);
@@ -735,10 +792,18 @@
       const pillEl = document.getElementById("market-adjustment-value");
       const labelEl = document.getElementById("market-adjustment-label");
 
-      if (targetEl) targetEl.innerText = usd2.format(adjusted);
+      if (targetEl) targetEl.innerText = usd0.format(adjusted);
       const multText = `${m.toFixed(2)}×`;
       if (pillEl) pillEl.innerText = multText;
       if (labelEl) labelEl.innerText = multText;
+
+      // Immediate visual feedback: red for soft markets, green for high demand
+      if (targetEl) {
+        targetEl.classList.remove("text-slate-900", "text-rose-700", "text-emerald-700");
+        if (m < 0.99) targetEl.classList.add("text-rose-700");
+        else if (m > 1.01) targetEl.classList.add("text-emerald-700");
+        else targetEl.classList.add("text-slate-900");
+      }
     }
 
     function initMarketAdjustment() {
@@ -748,6 +813,57 @@
       updateMarketAdjustment(slider.value);
       slider.addEventListener("input", (e) => {
         updateMarketAdjustment(e.target.value);
+      });
+    }
+
+    // ============================================================
+    // Appraisal Baseline breakdown tooltip
+    // ============================================================
+    const baselineBreakdown = {
+      basePrivateParty: 15500,
+      maintenancePremium: 2000,
+    };
+
+    function initBaselineTooltip() {
+      const btn = document.getElementById("baseline-info-btn");
+      const tip = document.getElementById("baseline-tooltip");
+      if (!btn || !tip) return;
+
+      const baseEl = document.getElementById("baseline-base");
+      const premEl = document.getElementById("baseline-premium");
+      const totalEl = document.getElementById("baseline-total");
+
+      const total = baselineBreakdown.basePrivateParty + baselineBreakdown.maintenancePremium;
+      if (baseEl) baseEl.innerText = usd0.format(baselineBreakdown.basePrivateParty);
+      if (premEl) premEl.innerText = `+${usd0.format(baselineBreakdown.maintenancePremium)}`;
+      if (totalEl) totalEl.innerText = usd0.format(total);
+
+      const close = () => {
+        tip.classList.add("hidden");
+        btn.setAttribute("aria-expanded", "false");
+      };
+      const toggle = () => {
+        const isOpen = !tip.classList.contains("hidden");
+        if (isOpen) close();
+        else {
+          tip.classList.remove("hidden");
+          btn.setAttribute("aria-expanded", "true");
+        }
+      };
+
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggle();
+      });
+
+      document.addEventListener("click", (e) => {
+        if (tip.classList.contains("hidden")) return;
+        if (tip.contains(e.target) || btn.contains(e.target)) return;
+        close();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
       });
     }
 
@@ -827,6 +943,10 @@
       // ----------------------------
       const byYear = new Map();
       const criticalYears = new Set();
+      const outlierNotesByYear = new Map([
+        [2020, "Outlier: Head Unit"],
+        [2023, "Outlier: Water Leak"],
+      ]);
 
       for (const e of serviceHistory) {
         const year = new Date(`${e.date}T00:00:00`).getFullYear();
@@ -836,6 +956,9 @@
 
       const years = Array.from(byYear.keys()).sort((a, b) => a - b);
       const spend = years.map((y) => Number((byYear.get(y) || 0).toFixed(2)));
+      const labelsA = years.map((y) =>
+        outlierNotesByYear.has(y) ? `${y}*` : `${y}`,
+      );
       const barColors = years.map((y) => (criticalYears.has(y) ? criticalRed : slateBar));
 
       const annualCtx = document.getElementById("chart-annual-spend");
@@ -845,7 +968,7 @@
         annualSpendChart = new Chart(annualCtx, {
           type: "bar",
           data: {
-            labels: years.map(String),
+            labels: labelsA,
             datasets: [
               {
                 label: "Annual Maintenance Spend",
@@ -864,7 +987,12 @@
               legend: { display: false },
               tooltip: {
                 callbacks: {
-                  label: (ctx) => ` ${usd0.format(ctx.parsed.y)}`
+                  label: (ctx) => {
+                    const yearLabel = String(ctx.label).replace("*", "");
+                    const yearNum = Number(yearLabel);
+                    const note = outlierNotesByYear.get(yearNum);
+                    return ` ${usd0.format(ctx.parsed.y)}${note ? ` • ${note}` : ""}`;
+                  },
                 }
               },
             },
@@ -995,6 +1123,7 @@
     renderTelemetry();
     renderCharts();
     initMarketAdjustment();
+    initBaselineTooltip();
     lucide.createIcons();
   </script>
 </body>
